@@ -1,7 +1,9 @@
-import Image from "next/image";
+
 
 export default function Home() {
   return (
-    <div>Home</div>
+    <div className="bg-black text-white h-[100vh]">
+      Home
+    </div>
   );
 }

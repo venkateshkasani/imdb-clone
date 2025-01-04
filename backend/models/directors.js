@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const schema = mongoose.schema({
+const schema = mongoose.Schema({
     name:String,
     gender:String,
     DOB:String,
@@ -12,4 +12,4 @@ const schema = mongoose.schema({
 
 const directorModel = mongoose.model("directors",schema)
 
-export default directorModel;
+module.exports = directorModel;

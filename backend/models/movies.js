@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const schema = mongoose.schema({
+const schema = mongoose.Schema({
     movieName:String,
     director:String,
     Actors:[String],
@@ -15,5 +15,3 @@ const schema = mongoose.schema({
 })
 
 const movieModel = mongoose.model('movies',schema)
-
-export default movieModel;
