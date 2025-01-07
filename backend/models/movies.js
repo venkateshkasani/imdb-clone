@@ -8,10 +8,12 @@ const schema = mongoose.Schema({
     imdbRating:String,
     yearOfRelease:String,
     plot:String,
-    poster:Buffer,
+    poster:String,
 },
 {
-    collection:"asfadsf"
+    collection:"movies"
 })
 
 const movieModel = mongoose.model('movies',schema)
+
+module.exports = movieModel;

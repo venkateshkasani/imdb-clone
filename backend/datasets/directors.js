@@ -12,12 +12,6 @@ const directorData = [
     "Bio": "American director and actress known for films like Lady Bird and Little Women."
   },
   {
-    "name": "Quentin Tarantino",
-    "gender": "Male",
-    "DOB": "1963-03-27",
-    "Bio": "American director known for his distinctive style and films like Pulp Fiction and Kill Bill."
-  },
-  {
     "name": "Chloé Zhao",
     "gender": "Female",
     "DOB": "1982-03-31",
@@ -118,7 +112,43 @@ const directorData = [
     "gender": "Female",
     "DOB": "1928-05-30",
     "Bio": "Belgian-French director known for her pioneering work in the French New Wave."
-  }
+  },
+  {
+    "name": "Joseph Kosinski",
+    "gender": "Male",
+    "DOB": "1974-05-03",
+    "Bio": "American director known for films like Tron: Legacy, Oblivion, and Top Gun: Maverick."
+  },
+  {
+    "name": "Matt Reeves",
+    "gender": "Male",
+    "DOB": "1966-04-27",
+    "Bio": "American director known for films like Cloverfield, Dawn of the Planet of the Apes, and The Batman."
+  },
+  {
+    "name": "Damien Chazelle",
+    "gender": "Male",
+    "DOB": "1985-01-19",
+    "Bio": "American director known for films like Whiplash, La La Land, and First Man."
+  },
+  {
+    "name": "Frank Darabont",
+    "gender": "Male",
+    "DOB": "1959-01-28",
+    "Bio": "American director known for films like The Shawshank Redemption, The Green Mile, and The Mist."
+  },
+  {
+    "name": "Francis Ford Coppola",
+    "gender": "Male",
+    "DOB": "1939-04-07",
+    "Bio": "American director known for films like The Godfather Trilogy, Apocalypse Now, and The Conversation."
+  },
+  {
+    "name": "Quentin Tarantino",
+    "gender": "Male",
+    "DOB": "1963-03-27",
+    "Bio": "American director known for films like Pulp Fiction, Kill Bill, and Once Upon a Time in Hollywood."
+  }  
 ]
 
 module.exports = directorData;
