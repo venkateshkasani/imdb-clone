@@ -5,16 +5,16 @@ const directorData = require('../datasets/directors')
 
 router.get('/directors', async (req,res) => {
      try {
-        const data = directors.find()
+        const data = await directors.find()
         res.json(data).status(200)
      } catch (e) {
-        throw new Error('Failed to fetch resources from db')
+        console.log('Failed to fetch resources from db',e)
      }
   })
 
 router.post('/post-directors', async (req,res) => {
     try {
-        await directors.insertMany(directorData)
+        await directors.insertMany()
         res.json({"message":"Successfully inserted"})
     } catch (e) {
         throw new Error("Failed to fetch resources from db")
