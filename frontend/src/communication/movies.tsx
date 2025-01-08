@@ -1,5 +1,17 @@
+'use client'
 import axiosInstance from "@/utils/instance";
+import { useQuery,useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+
+export const getAllMovies = () => {
+  return useQuery({
+      queryKey:['allMovies'],
+      queryFn:async () => {
+         const data = await axiosInstance.get('/movies');
+         return data;
+      }
+    })
+}
 
 const postMovies = async (data:any) => {
     try {

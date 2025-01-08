@@ -91,4 +91,9 @@ code, pre {
 .mainDiv {
   width: calc(100vw - 100%);
 } 
-
+.text-primary {
+  color:#F5C518;
+}
+.cardImage {
+  background-size: cover;
+}
