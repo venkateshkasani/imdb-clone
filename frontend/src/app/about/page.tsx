@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form'
 import MultiInput from '@/custom-components/multiInput'
 import { useEffect, useState } from 'react'
-import postMovies, { uploadImage } from '@/mutations/movies'
+import postMovies, { uploadImage } from '@/communication/movies'
 const page = () => {
     const {handleSubmit, register } = useForm()
     const [multiInput,setMultiInput] = useState<string[]>();
@@ -28,6 +28,7 @@ const page = () => {
         data.poster = url;
         const res = await postMovies(data);
     }
+    
     return (
         <div>
             <div className='flex justify-center'>

@@ -13,10 +13,10 @@ router.get('/producers',async (req,res) => {
    }
 })
 
-router.post('/post-producers',async (req,res) => {
+router.post('/producers',async (req,res) => {
    try {
         const data = producerData;
-        await producers.insertMany(data);
+        await producers.insertOne(data);
         console.log("inserted successfully")
    } catch (e) {
        console.error("Error while posting data",e)
