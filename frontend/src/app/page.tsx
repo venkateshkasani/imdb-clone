@@ -3,14 +3,10 @@ import Carousel_custom from "@/custom-components/Carousel_custom";
 import Moviecard from "@/custom-components/Moviecard";
 import { getAllMovies } from "@/communication/movies";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 export default function Home() {
-  const joker = {
-    title:"Joker",
-    imdb:'9.0',
-    source:'/joker.jpg',
-    href:'https://www.joker.com'
-  }
+  const things = 'joker'
 
   const {data, isLoading} = getAllMovies();
   console.log("data",data)
@@ -33,28 +29,32 @@ export default function Home() {
       </div>
     </div>
     </div>
-    <div className="p-5 flex gap-10">
-    {!isLoading ? data?.data?.map((movie:any,index:number) => {
-       if(index > 5)return;
-       return <Moviecard key={index} data = {movie} />
-    }) : 
-    (
-      <div className="flex gap-5 flex-wrap">
-        {
-          Array.from({length:8}).map((_,index) => (
-            <div key={index} className="flex flex-col space-y-3">
-                <Skeleton key={index} className="h-[200px] w-[150px] bg-gray-900 rounded-xl" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-[150px] bg-slate-600" />
-                  <Skeleton className="h-4 w-2/3 bg-slate-600" />
-                </div>
-            </div>
-          ))
-        }
+    <div>
+      <p className="text-primary text-3xl ml-4 font-semibold mt-10">Top Rated Movies: </p>
+      <div className="p-5 flex gap-10">
+      {!isLoading ? data?.data?.map((movie:any,index:number) => {
+        if(index > 5)return;
+        return <Moviecard key={index} data = {movie} />
+      }) : 
+      (
+        <div className="flex gap-5 flex-wrap">
+          {
+            Array.from({length:8}).map((_,index) => (
+              <div key={index} className="flex flex-col space-y-3">
+                  <Skeleton key={index} className="h-[200px] w-[150px] bg-gray-900 rounded-xl" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[150px] bg-slate-600" />
+                    <Skeleton className="h-4 w-2/3 bg-slate-600" />
+                  </div>
+              </div>
+            ))
+          }
+        </div>
+      )
+      }
       </div>
-    )
-    }
     </div>
+    <Link className="hover:cursor-pointer" href={`/movies`}><div className="text-3xl">Click me brao!</div></Link>
     </div>
   );
 }

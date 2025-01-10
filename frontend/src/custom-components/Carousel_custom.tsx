@@ -19,8 +19,8 @@ const Carousel_custom = () => {
     <div className="relative">
         <img className="rounded-2xl w-full" src="/captain_banner.jpg" height={'400px'} width={'400px'} />
         <div className="absolute inset-0 overlay h-full bg-black opacity-20"></div>
-        <span className="absolute inset-0 text-white h-fit w-full font-semibold text-2xl flex items-center justify-center text-center">
-        {/* <p className="w-1/2 font-mono overlay-text-size">Scheduling meetings now is just a single click</p> */}
+        <span className="absolute inset-0 text-white h-fit w-full font-semibold text-2xl p-4">
+        <p className="w-1/2 font-mono overlay text-4xl text-start">A new chapter and a more new beginning of Steve Rogers.</p>
         </span>
         </div>
       </CarouselItem>
@@ -28,8 +28,8 @@ const Carousel_custom = () => {
       <div className="relative">
         <img className="rounded-2xl w-full h-full" src="/moana_banner.jpg"  />
         <div className="absolute inset-0 overlay h-full bg-black opacity-20"></div>
-        <span className="absolute inset-0 text-white font-semibold text-2xl flex items-center justify-center text-center">
-        {/* <p className="w-1/2 font-mono overlay-text-size">For faster and advanced video calling options</p> */}
+        <span className="absolute inset-0 text-white font-semibold text-2xl flex items-end">
+        <p className="w-1/2 font-mono overlay-text-size text-4xl p-4">Set Sail for a New Adventure with Maui!</p>
         </span>
         </div>
       </CarouselItem>
@@ -37,8 +37,8 @@ const Carousel_custom = () => {
         <div className="relative">
         <img className="rounded-2xl w-full h-full" src="/mufasa_banner.jpg" height={'400px'} width={'400px'} />
         <div className="absolute inset-0 overlay h-full bg-black opacity-20"></div>
-        <span className="absolute inset-0 text-white font-semibold flex items-center justify-center text-center">
-        {/* <p className="w-1/2 font-mono overlay-text-size">Sign up, and get VIP access free for 30 days</p> */}
+        <span className="absolute inset-0 text-white font-semibold flex items-end">
+        <p className="w-1/2 font-mono overlay-text-size text-4xl p-4">The Legend Returns to Roar Again!</p>
         </span>
         </div>
       </CarouselItem>

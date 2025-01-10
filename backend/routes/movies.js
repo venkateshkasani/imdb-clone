@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router();
 const movieModel = require('../models/movies')
 
+// get movies
+
 router.get('/movies',async (req,res) => {
     try {
         const data = await movieModel.find();
@@ -12,6 +14,26 @@ router.get('/movies',async (req,res) => {
     }
 })
 
+// search movies
+
+router.post('/search-movies',async (req,res) => {
+    try {
+        const {movieName} = req.body;
+    const searchInput = {}
+    if(movieName) {
+        searchInput.movieName = {
+            $regex:movieName, $options:'i'
+        }
+    }
+    const searchResults = await movieModel.find(searchInput);
+    res.json(searchResults).status(200)
+    } catch (e) {
+        console.error("Error while searching in movie collection",e);
+    }
+})
+
+// edit movie
+
 router.put('/movies',async (req,res) => {
      try {
         const id = req.body.id;
@@ -20,6 +42,8 @@ router.put('/movies',async (req,res) => {
          throw new Error("Failed to edit resources in server")
      }
 })
+
+// create movies
 
 router.post('/movies', async (req, res) => {
     const { movieName, director, actors, producer, imdbRating, yearOfRelease, plot, poster } = req.body;
