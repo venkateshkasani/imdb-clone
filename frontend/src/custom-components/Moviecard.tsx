@@ -3,7 +3,7 @@ import { Play } from "next/font/google"
 
 const Moviecard = ({data}:{data:any}) => {
   return (
-    <div className="flex flex-col w-[200px] h-fit bg-neutral-900 rounded-xl">
+    <div className="flex flex-col w-[20%] h-fit bg-neutral-900 rounded-xl">
         <img className="w-full rounded-t-xl h-[250px]" src={data.poster} />
         <span className="flex gap-1 my-2 px-1">
             <Star size={20} className="text-primary" />
@@ -16,10 +16,10 @@ const Moviecard = ({data}:{data:any}) => {
             </span>
             <div className="flex items-center gap-9 my-3">
             <div className="flex gap-1 items-center">
-            <PlayIcon size={18} className="text-white" />
-            <p>Trailer</p>
+            {/* <PlayIcon size={18} className="text-white" /> */}
+            <p className="hover:cursor-pointer hover:text-slate-300">+ Add to Watchlist</p>
             </div>
-            <Info size={20} color="white" />
+            {/* <Info size={20} color="white" /> */}
             </div>
         </div>
     </div>

@@ -1,7 +1,8 @@
 'use client'
 import axiosInstance from "@/utils/instance";
-import { useQuery,useQueryClient } from "@tanstack/react-query";
+import { Query, useQuery,useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { queryObjects } from "v8";
 
 export const getAllMovies = () => {
   return useQuery({
@@ -11,6 +12,15 @@ export const getAllMovies = () => {
          return data;
       }
     })
+}
+
+export const searchMovies = async (movieData:any) => {
+  try {
+     const data = await axiosInstance.post('/search-movies',movieData)
+     return data;
+  } catch (e) {
+    console.log("Erorr while gettting search resources")
+  }
 }
 
 const postMovies = async (data:any) => {

@@ -4,9 +4,9 @@ import { BookmarkCheck, Menu, Search, X } from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation"
 import Link from "next/link";
+import Searchbar from "./Searchbar";
 
 const Navbar = () => {
-    const [search, setSearch] = useState("")
     const pathName = usePathname();
     function isActive (path:string) {
         return  pathName === path ? 'underline' : ''
@@ -24,7 +24,7 @@ const Navbar = () => {
         </div>
         <div className="hidden md:flex md:items-center justify-center">
         <li className="flex items-center">
-        <div className="flex items-center relative">
+        {/* <div className="flex items-center relative">
             <Search size={30} className="text-slate-500 absolute p-1 left-1" />
             <input
                 placeholder="Search movies..."
@@ -33,7 +33,8 @@ const Navbar = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)} />
                 <X className={clsx('text-gray-500 absolute right-1',{'block':search.length > 0,'hidden':search.length < 1})} size={20} />
-        </div>
+        </div> */}
+        <Searchbar />
         </li>
         </div>
         <div className={clsx('transition-all duration-500 md:opacity-100',{'opacity-100':isCollapsed,'opacity-0':!isCollapsed})} >
