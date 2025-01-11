@@ -1,7 +1,8 @@
 'use client'
+import { multiInputProps } from "@/utils/multiInputProps";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-const MultiInput = ({placeholder,callbackFunction}:{placeholder:string,callbackFunction:(val:string[]) => void}) => {
+const MultiInput = ({placeholder,callbackFunction,initialData}:multiInputProps) => {
     const [value, setValue] = useState<string>('');
     const [arr, setArr] = useState<string[]>([]);
     const handleEnter = (e:any) => {
@@ -18,6 +19,12 @@ const MultiInput = ({placeholder,callbackFunction}:{placeholder:string,callbackF
             setArr(tempArr)
         }
     }
+
+    useEffect(() => {
+      if(initialData) {
+        callbackFunction(initialData)
+      }
+    },[])
 
     const handleRemove = (e:any,index:number) => {
         e.preventDefault();

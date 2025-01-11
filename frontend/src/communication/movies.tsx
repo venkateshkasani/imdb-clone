@@ -23,6 +23,17 @@ export const searchMovies = async (movieData:any) => {
   }
 }
 
+// edit movies
+
+export const updateMovie = async (data:any) => {
+  try {
+      const doc = await axiosInstance.put('/movies',data);
+      console.log("Successfully updated",doc);
+  } catch (e) {
+     console.log("Error while updating resources")
+  }
+}
+
 const postMovies = async (data:any) => {
     try {
         await axiosInstance.post('/movies',data )

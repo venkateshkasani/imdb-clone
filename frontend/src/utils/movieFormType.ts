@@ -8,3 +8,4 @@ export type movieType = {
     poster:string,
     plot:string
 }
+

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
-const movieModel = require('../models/movies')
+const movieModel = require('../models/movies');
+const { ReturnDocument } = require('mongodb');
 
 // get movies
 
@@ -36,10 +37,13 @@ router.post('/search-movies',async (req,res) => {
 
 router.put('/movies',async (req,res) => {
      try {
-        const id = req.body.id;
-        await movieModel.findByIdAndUpdate(id,req.body);
+        const id = req.body._id;
+        const doc = await movieModel.findOneAndReplace({_id:id},req.body,{returnDocument:'after'});
+        console.log("this is id",id)
+        res.json(doc).status(200)
      } catch (e) {
-         throw new Error("Failed to edit resources in server")
+        res.status(400);
+        throw new Error("Failed to edit resources in server")
      }
 })
 

@@ -108,3 +108,7 @@ code, pre {
   background-color: #9ca3af;
   /* cursor: pointer; */
 }
+.validation {
+  color: red;
+  font-size: small;
+}

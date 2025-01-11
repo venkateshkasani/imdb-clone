@@ -58,7 +58,6 @@ export default function Home() {
       }
       </div>
     </div>
-    <Link className="hover:cursor-pointer" href={`/movies`}><div className="text-3xl">Click me brao!</div></Link>
     </div>
   );
 }

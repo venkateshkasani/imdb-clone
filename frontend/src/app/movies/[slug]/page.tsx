@@ -1,10 +1,11 @@
 'use client'
-import { getAllMovies } from "@/communication/movies";
-import { Edit, Star } from "lucide-react";
+import { getAllMovies, updateMovie } from "@/communication/movies";
+import { Edit, Star, X } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import {
   Sheet,
   SheetClose,
@@ -23,36 +24,38 @@ import {zodResolver} from '@hookform/resolvers/zod'
 
 
 const page = ({params}:{params:any}) => {
+  const {slug} = useParams()
   type movieType = z.infer<typeof movieSchema>
-  const {register, control, handleSubmit,formState:{errors},watch} = useForm<movieType>({
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const {register, control, handleSubmit, setValue, formState:{errors},watch} = useForm<movieType>({
     resolver:zodResolver(movieSchema)
   })
 
-  // const {data,isLoading} =  getAllMovies();
-  // const filtered = data?.data.filter((movie:any) => movie._id == params.slug)
-  // const movie = filtered[0];
+  const {data,isLoading} =  getAllMovies();
+  const filtered = data?.data.filter((movie:any) => movie._id == slug)
+  const movie = filtered[0];
 
   // const count = useSelector((state:RootState) => state.counter.value);
   // const dispatch = useDispatch();
-  const movie = {
-    actors: ['Tom Cruise', 'Miles Teller'],
-    director: 'Joseph Kosinski',
-    imdbRating: '8.3',
-    movieName: 'Top Gun: Maverick',
-    plot: "After thirty years, Maverick is still pushing the envelope as a top naval aviator, but must confront ghosts of his past when he leads TOPGUN's elite graduates on a mission.",
-    poster: 'https://res.cloudinary.com/df5j5zzmv/image/upload/v1736246987/yvrsyknhwx9sycpkyykz.jpg',
-    producer: 'Jerry Bruckheimer',
-    yearOfRelease: '2022',
-    __v: 0,
-    _id: '677d06cc6a5d8af9bed1fc56'
-  };  
+  // const movie = {
+  //   actors: ['Tom Cruise', 'Miles Teller'],
+  //   director: 'Joseph Kosinski',
+  //   imdbRating: '8.3',
+  //   movieName: 'Top Gun: Maverick',
+  //   plot: "After thirty years, Maverick is still pushing the envelope as a top naval aviator, but must confront ghosts of his past when he leads TOPGUN's elite graduates on a mission.",
+  //   poster: 'https://res.cloudinary.com/df5j5zzmv/image/upload/v1736246987/yvrsyknhwx9sycpkyykz.jpg',
+  //   producer: 'Jerry Bruckheimer',
+  //   yearOfRelease: '2022',
+  //   __v: 0,
+  //   _id: '677d06cc6a5d8af9bed1fc56'
+  // };  
   console.log("movie",movie)
   
   const [formData, setFormData] = useState<movieType>({
     movieName:'',
     imdbRating:'',
-    dires:'',
-    producer:'',
+    actors:[],
+    producer:'', 
     director:'',
     yearOfRelease:'',
     poster:'',
@@ -61,11 +64,15 @@ const page = ({params}:{params:any}) => {
 
   const updateActors = (data:string[]) => {
       setFormData((prev) => ({...prev,actors:data}))
+      setValue('actors',data);
       console.log("Actors changed")
   }
 
-  const onSubmit = (data:any) => {
-     console.log("formdata",data)
+  const onSubmit = async (data:any) => {
+     setIsSheetOpen(false);
+     await updateMovie({...data,_id:params.slug})
+     console.log("Updated brao!")
+    // console.log("sending obj...",{...data,_id:slug})
   }
 
   return (
@@ -77,38 +84,43 @@ const page = ({params}:{params:any}) => {
        <div className="w-1/3 text-slate-400 flex flex-col gap-4">
           <span className="text-3xl font-semibold text-primary my-3 flex gap-1 items-center">
             <p>Movie Details </p>
-            <Sheet>
+            <Sheet open={isSheetOpen}>
       <SheetTrigger asChild>
-       <Edit className="inline ml-2 hover:cursor-pointer" size={24} />
+       <Edit className="inline ml-2 hover:cursor-pointer" size={24} onClick={() => setIsSheetOpen(true)} />
       </SheetTrigger>
       <SheetContent className="overflow-y-auto">
         <SheetHeader>
-          <SheetTitle className="mb-4">Edit movie details</SheetTitle>
+          <div className="flex justify-between">
+          <SheetTitle className="mb-4 inline text-primary font-semibold">Edit movie details</SheetTitle>
+          <X color="red" size={24} className="inline absolute right-2 top-2 opacity-0 hover:cursor-pointer" onClick={() => setIsSheetOpen(false)} />
+          </div>
         </SheetHeader>
         <form onSubmit={handleSubmit(onSubmit,(err) => console.log("errors",err))} className="flex flex-col gap-3">
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <Label htmlFor="name" className="">
               Movie name
             </Label>
-            <input id="name" {...register('movieName')} className="border-2"/>
-            <span>{errors.movieName && 'Enter a valid movie name'}</span>
+            <input id="name" defaultValue={movie.movieName} {...register('movieName')} className="border-2"/>
+            <span className="validation">{errors.movieName && `${errors.movieName?.message}`}</span>
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="name" className="">
+              Year of Release
+            </Label>
+            <input id="name" {...register('yearOfRelease')} className="border-2" defaultValue={movie.yearOfRelease}/>
+            <span className="validation">{errors.yearOfRelease && `${errors.yearOfRelease?.message}`}</span>
           </div>
           <div className="">
             <Label className="text-right">
               Actors
             </Label>
-            {/* <Controller
+            <Controller
             name="actors"
             control={control}
+            defaultValue={movie.actors}
             render={({field}) => <MultiInput {...field} placeholder="Actors.." callbackFunction={updateActors} />}
-             /> */}
-             <Controller
-            name='dires'
-            defaultValue=""
-            control = {control}
-            render = {({field}) => <Input {...field} type="text" />}
              />
-            <span>{errors.dires && 'Enter actor names'}</span>
+            <span className="validation">{errors.actors && `${errors.actors.message}`}</span>
           </div>
           <div className="">
             <Label className="text-right">
@@ -116,10 +128,12 @@ const page = ({params}:{params:any}) => {
             </Label>
             <Controller
             name='director'
-            defaultValue="nolan bhai"
+            defaultValue={movie.director}
             control = {control}
             render = {({field}) => <Input {...field} type="text" />}
              />
+            <span className="validation">{errors.director && `${errors.director.message}`}</span>
+
           </div>
           <div className="">
             <Label className="">
@@ -127,10 +141,12 @@ const page = ({params}:{params:any}) => {
             </Label>
             <Controller
             name='producer'
-            defaultValue="bhAAi"
+            defaultValue={movie.director}
             control = {control}
             render = {({field}) => <Input {...field} type="text" />}
              />
+            <span className="validation">{errors.producer && `${errors.producer.message}`}</span>
+
           </div>
           <div className="">
             <Label className="">
@@ -138,10 +154,11 @@ const page = ({params}:{params:any}) => {
             </Label>
             <Controller
             name='imdbRating'
-            defaultValue=""
+            defaultValue={movie.imdbRating}
             control = {control}
             render = {({field}) => <Input {...field} type="text" />}
              />
+            <span className="validation">{errors.imdbRating && `${errors.imdbRating.message}`}</span>
           </div>
           <div className="">
             <Label className="">
@@ -149,10 +166,12 @@ const page = ({params}:{params:any}) => {
             </Label>
             <Controller
             name='poster'
-            defaultValue=""
+            defaultValue={movie.poster}
             control = {control}
             render = {({field}) => <Input {...field} type="text" />}
              />
+            <span className="validation">{errors.poster && `${errors.poster.message}`}</span>
+
           </div>
           <div className="">
             <Label className="">
@@ -160,15 +179,17 @@ const page = ({params}:{params:any}) => {
             </Label>
             <Controller
             name='plot'
-            defaultValue=""
+            defaultValue={movie.plot}
             control = {control}
             render = {({field}) => <Input {...field} type="text" />}
              />
+            <span className="validation">{errors.plot && `${errors.plot.message}`}</span>
+
           </div>
           <SheetFooter>
-          <SheetClose asChild>
+          {/* <SheetClose asChild> */}
           <Button type="submit" className="m-2 text-primary font-semibold">Save changes</Button>
-          </SheetClose>
+          {/* </SheetClose> */}
         </SheetFooter>
         </form>
       </SheetContent>
