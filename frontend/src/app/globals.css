@@ -103,9 +103,8 @@ code, pre {
 }
 .searchItem {
   padding: 1%;
-  outline: 2px solid red;
 }
 .searchItem:hover {
   background-color: #9ca3af;
-  cursor: pointer;
+  /* cursor: pointer; */
 }

@@ -35,7 +35,7 @@ const MultiInput = ({placeholder,callbackFunction}:{placeholder:string,callbackF
         callbackFunction(arr);
     },[arr])
     return (
-        <div className="relative w-full max-w-sm">
+        <div className="relative w-full">
             <div className="border-2 rounded p-2">
                 <div className="flex flex-wrap gap-2">
                     {arr.map((val, index) => (

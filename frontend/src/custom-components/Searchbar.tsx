@@ -2,6 +2,7 @@
 import { searchMovies } from "@/communication/movies"
 import clsx from "clsx"
 import { Search,X } from "lucide-react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 
@@ -49,6 +50,7 @@ const Searchbar = () => {
         router.push(`/movies/${movie.movieName}`)
     }
 
+
     return (
         <div className="relative">
             <div className="flex items-center">
@@ -64,9 +66,11 @@ const Searchbar = () => {
             </div>
             <div className={clsx("absolute max-h-[50vh] overflow-y-auto top-10 z-10 w-full rounded mt-1 bg-slate-200 text-black font-semibold flex flex-col gap-2",{'hidden':!open})}>
                 {searchResults?.map((movie:any,index:number) => (
-                    <p className = "searchItem" onClick={(movie) => router.push('')} >
+                    <Link href={`/movies/${movie._id}`}>
+                    <span className = "searchItem" onClick={() => console.log("selected",movie.movieName)}>
                        {movie.movieName}
-                    </p>
+                    </span>
+                    </Link>
                 ))}
             </div>
         </div>
