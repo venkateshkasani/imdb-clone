@@ -34,7 +34,11 @@ export default function Home() {
       <div className="p-5 flex gap-10">
       {!isLoading ? data?.data?.map((movie:any,index:number) => {
         if(index > 5)return;
-        return <Moviecard key={index} data = {movie} />
+        return (
+        // <Link href={'/movies'} className="w-full">
+          <Moviecard key={index} data = {movie} />
+        // </Link>
+        )
       }) : 
       (
         <div className="flex gap-5 flex-wrap">

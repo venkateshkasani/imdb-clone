@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/custom-components/Navbar";
 import QueryProvider from "@/utils/QueryProvider";
 import Footer from "@/custom-components/Footer";
+import StoreProvider from "@/utils/StoreProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <QueryProvider>
+      <StoreProvider>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -37,6 +39,7 @@ export default function RootLayout({
        <Footer />
        </div>
       </body>
+      </StoreProvider>
       </QueryProvider>
     </html>
   );
