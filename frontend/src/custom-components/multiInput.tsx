@@ -23,6 +23,7 @@ const MultiInput = ({placeholder,callbackFunction,initialData}:multiInputProps) 
     useEffect(() => {
       if(initialData) {
         callbackFunction(initialData)
+        setArr(initialData)
       }
     },[])
 
@@ -64,12 +65,5 @@ const MultiInput = ({placeholder,callbackFunction,initialData}:multiInputProps) 
         </div>
     )
 }
-
-
-// const bubble = (value:string) => {
-//     return (
-//         <span className="w-fit absolute left-0 top-0">{value}</span>
-//     )
-// }
 
 export default MultiInput;

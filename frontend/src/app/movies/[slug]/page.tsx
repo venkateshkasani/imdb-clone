@@ -4,7 +4,7 @@ import { Edit, Star, X } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import {
   Sheet,
@@ -27,7 +27,7 @@ const page = ({params}:{params:any}) => {
   const {slug} = useParams()
   type movieType = z.infer<typeof movieSchema>
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const {register, control, handleSubmit, setValue, formState:{errors},watch} = useForm<movieType>({
+  const {register, control, handleSubmit, setValue, getValues, formState:{errors},watch} = useForm<movieType>({
     resolver:zodResolver(movieSchema)
   })
 
@@ -50,6 +50,12 @@ const page = ({params}:{params:any}) => {
   //   _id: '677d06cc6a5d8af9bed1fc56'
   // };  
   console.log("movie",movie)
+
+  useEffect(() => {
+   if(movie.actors) {
+      setFormData((prev) => ({...prev,actors:movie.actors}))
+   }
+  },[])
   
   const [formData, setFormData] = useState<movieType>({
     movieName:'',
@@ -117,8 +123,8 @@ const page = ({params}:{params:any}) => {
             <Controller
             name="actors"
             control={control}
-            defaultValue={movie.actors}
-            render={({field}) => <MultiInput {...field} placeholder="Actors.." callbackFunction={updateActors} />}
+            defaultValue={formData.actors}
+            render={({field}) => <MultiInput {...field} initialData={formData.actors} placeholder="Actors.." callbackFunction={updateActors} />}
              />
             <span className="validation">{errors.actors && `${errors.actors.message}`}</span>
           </div>
@@ -141,7 +147,7 @@ const page = ({params}:{params:any}) => {
             </Label>
             <Controller
             name='producer'
-            defaultValue={movie.director}
+            defaultValue={movie.producer}
             control = {control}
             render = {({field}) => <Input {...field} type="text" />}
              />
