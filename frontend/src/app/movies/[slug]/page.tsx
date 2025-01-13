@@ -1,11 +1,12 @@
 'use client'
 import { getAllMovies, updateMovie } from "@/communication/movies";
-import { Edit, Star, X } from "lucide-react";
+import { Edit, LoaderCircle, Star, X } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import clsx from "clsx";
 import {
   Sheet,
   SheetClose,
@@ -27,6 +28,7 @@ const page = ({params}:{params:any}) => {
   const {slug} = useParams()
   type movieType = z.infer<typeof movieSchema>
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {register, control, handleSubmit, setValue, getValues, formState:{errors},watch} = useForm<movieType>({
     resolver:zodResolver(movieSchema)
   })
@@ -34,21 +36,6 @@ const page = ({params}:{params:any}) => {
   const {data,isLoading} =  getAllMovies();
   const filtered = data?.data.filter((movie:any) => movie._id == slug)
   const movie = filtered[0];
-
-  // const count = useSelector((state:RootState) => state.counter.value);
-  // const dispatch = useDispatch();
-  // const movie = {
-  //   actors: ['Tom Cruise', 'Miles Teller'],
-  //   director: 'Joseph Kosinski',
-  //   imdbRating: '8.3',
-  //   movieName: 'Top Gun: Maverick',
-  //   plot: "After thirty years, Maverick is still pushing the envelope as a top naval aviator, but must confront ghosts of his past when he leads TOPGUN's elite graduates on a mission.",
-  //   poster: 'https://res.cloudinary.com/df5j5zzmv/image/upload/v1736246987/yvrsyknhwx9sycpkyykz.jpg',
-  //   producer: 'Jerry Bruckheimer',
-  //   yearOfRelease: '2022',
-  //   __v: 0,
-  //   _id: '677d06cc6a5d8af9bed1fc56'
-  // };  
   console.log("movie",movie)
 
   useEffect(() => {
@@ -75,10 +62,11 @@ const page = ({params}:{params:any}) => {
   }
 
   const onSubmit = async (data:any) => {
-     setIsSheetOpen(false);
+    setIsSubmitting(true)
      await updateMovie({...data,_id:params.slug})
      console.log("Updated brao!")
-    // console.log("sending obj...",{...data,_id:slug})
+     setIsSubmitting(false);
+     setIsSheetOpen(false);
   }
 
   return (
@@ -194,7 +182,7 @@ const page = ({params}:{params:any}) => {
           </div>
           <SheetFooter>
           {/* <SheetClose asChild> */}
-          <Button type="submit" className="m-2 text-primary font-semibold">Save changes</Button>
+          <Button type="submit" className="m-2 text-primary font-semibold">Save changes <LoaderCircle size={20} className={clsx('text-primay',isSubmitting && 'animate-spin',!isSubmitting && 'hidden')} /></Button>
           {/* </SheetClose> */}
         </SheetFooter>
         </form>
