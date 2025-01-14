@@ -9,3 +9,10 @@ export type movieType = {
     plot:string
 }
 
+export type directorType = {
+    name:string,
+    gender:string,
+    DOB:string,
+    Bio:string
+}
+

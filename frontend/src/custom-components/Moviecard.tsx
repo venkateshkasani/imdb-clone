@@ -1,14 +1,20 @@
 'use client'
 import movieSchema from "@/schema/movies"
-import { Star } from "lucide-react"
+import { Pencil, Star } from "lucide-react"
 import Link from "next/link"
 
 const Moviecard = ({data}:{data:any}) => {
-  const truncatedPlot = data.plot.length > 25 ? data.plot.slice(0,25) + "..." : data.plot.slice;
+  const truncateLength = 40;
+  const truncatedPlot = data.plot.length > truncateLength ? data.plot.slice(0,truncateLength) + "..." : data.plot.slice;
+  const castLength = 20;
+  const actorsString = data.actors.join(',')
+  const truncatedActors = actorsString.length > 25 ? actorsString.slice(0,25) + '...' : actorsString
+  const truncatedTitle = data.movieName.length > 30 ? data.movieName.slice(0,30) + '...' : data.movieName
 
   return (
-    <div className="flex flex-col w-[20%] h-fit bg-neutral-900 rounded-xl">
+    <div className="flex flex-col w-[20%] h-fit bg-neutral-900 rounded-xl relative">
       <Link href={`/movies/${data._id}`}>
+      <Pencil size={20} className="text-primary font-semibold absolute right-1 top-1 hover:cursor-pointer transition-all duration-100" />
       <img className="w-full rounded-t-xl h-[250px]" src={data.poster} />
        <div className="flex justify-between">
        <span className="flex gap-1 my-2 px-1">
@@ -19,18 +25,17 @@ const Moviecard = ({data}:{data:any}) => {
           {data.yearOfRelease}
         </span>
        </div>
-        <p className="font-semibold text-lg px-1 min-h-[55px]">{data.movieName}</p>
+        <p className="font-semibold text-lg px-1 min-h-[55px]">{truncatedTitle}</p>
         <div className="flex flex-col w-full p-1 mt-2 gap-2">
-           <p><span className="text-slate-300">By</span><span className="text-primary font-semibold text-sm"> {data.director}</span></p>
+           <p><span className="text-slate-300">Directed by:</span><div className="text-primary font-semibold text-sm"> {data.director}</div></p>
+           <p><span className="text-slate-300">Produced by: </span><div className="text-primary font-semibold text-sm"> {data.producer}</div></p>
         </div>
         <div className="flex flex-col w-full p-1 mt-2 gap-2">
-           <p><span className="text-slate-300">Starring</span><span className="text-primary font-semibold text-sm"> {data.actors.map((actor:any,index:number) => {
-            if(index < data.actors.length - 1) return actor + ',';
-            else return actor;
-           })}</span></p>
+           <p><span className="text-slate-300">Starring: </span><span className="text-primary font-semibold text-xs">{truncatedActors}</span></p>
         </div>
         <div>
-          <p className="text-xs">{data.plot.length > 25 ? truncatedPlot : data.plot }</p>
+          <span className="text-slate-300">Plot: </span>
+          <span className="text-xs text-primary">{data.plot.length > truncateLength ? truncatedPlot : data.plot }</span>
         </div>
       </Link>
     </div>

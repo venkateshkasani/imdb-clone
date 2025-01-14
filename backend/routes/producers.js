@@ -15,20 +15,13 @@ router.get('/producers',async (req,res) => {
 
 router.post('/producers',async (req,res) => {
    try {
-        const data = producerData;
-        await producers.insertOne(data);
+        const doc = new producers(req.body)
+        await doc.save();
+        res.json({"message":"Successfully inserted"})
         console.log("inserted successfully")
    } catch (e) {
        console.error("Error while posting data",e)
    }
-})
-
-router.get("/dsa",async (req,res) => {
-    try {
-      res.json({"mess":"yes prod"})
-    } catch {
-      res.json({"message":"error got"})
-    }
 })
 
 module.exports = router;

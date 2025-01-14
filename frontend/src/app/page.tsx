@@ -3,13 +3,39 @@ import Carousel_custom from "@/custom-components/Carousel_custom";
 import Moviecard from "@/custom-components/Moviecard";
 import { getAllMovies } from "@/communication/movies";
 import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import { getAllDirectors } from "@/communication/directors";
+import DirectorCard from "@/custom-components/DirectorCard";
 
 export default function Home() {
-  const things = 'joker'
-
   const {data, isLoading} = getAllMovies();
-  console.log("data",data)
+  const directors = getAllDirectors();
+  console.log("directors data",directors?.data?.data)
+  const movieArray = data?.data;
+  const directorArray = directors?.data?.data;
+  const subArrays = (mainArray:any) => {
+     const op = [];
+     for(let i=0;i<mainArray?.length;i+=6) {
+      const subArr = [];
+         for(let k = 0;k<6 && (k+i) < mainArray.length ;k++) {
+            subArr.push(mainArray[k+i])
+         }
+         op.push(subArr)
+     }
+     return op;
+  }
+
+  const carouselMovies = subArrays(movieArray)
+  console.log("carouselmovies",carouselMovies)
+  const carouselDirectors = subArrays(directorArray);
+  console.log("directors",carouselDirectors)
+
   return (
     <div className="bg-black text-white h-full">
     <div className="ml-5 pt-5 flex w-fit">
@@ -30,34 +56,77 @@ export default function Home() {
     </div>
     </div>
     <div>
-      <p className="text-primary text-3xl ml-4 font-semibold mt-10">Top Rated Movies: </p>
-      <div className="p-5 flex gap-10">
-      {!isLoading ? data?.data?.map((movie:any,index:number) => {
-        if(index > 5)return;
+      {/* <p className="text-primary text-3xl ml-4 font-semibold mt-10">Top Rated Movies: </p> */}
+      <div className="mx-5 py-10">
+      {!isLoading ? 
+      <Carousel className="mx-10">
+      <CarouselPrevious />
+        <CarouselContent>
+      {!isLoading && carouselMovies?.map((arr:any,index:number) => {
         return (
-        // <Link href={'/movies'} className="w-full">
-          <Moviecard key={index} data = {movie} />
-        // </Link>
+          <CarouselItem key={index} className="flex gap-2">
+            {arr.map((movie:any,index:number) => <Moviecard key={index} data = {movie} />)}
+          </CarouselItem>
         )
-      }) : 
-      (
-        <div className="flex gap-5 flex-wrap">
-          {
-            Array.from({length:8}).map((_,index) => (
-              <div key={index} className="flex flex-col space-y-3">
-                  <Skeleton key={index} className="h-[200px] w-[150px] bg-gray-900 rounded-xl" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[150px] bg-slate-600" />
-                    <Skeleton className="h-4 w-2/3 bg-slate-600" />
-                  </div>
-              </div>
-            ))
-          }
-        </div>
-      )
+      })
       }
-      </div>
+           </CarouselContent>
+           <CarouselNext />
+      </Carousel>
+       : 
+      (
+  <div className="flex gap-5 flex-wrap">
+    {
+      Array.from({length:8}).map((_,index) => (
+        <div key={index} className="flex flex-col space-y-3">
+            <Skeleton key={index} className="h-[200px] w-[150px] bg-gray-900 rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[150px] bg-slate-600" />
+              <Skeleton className="h-4 w-2/3 bg-slate-600" />
+            </div>
+        </div>
+      ))
+    }
+  </div>
+)}
     </div>
     </div>
-  );
-}
+    <div>
+      <p className="text-primary font-semibold text-3xl px-5">Top Directors: </p>
+    </div>
+    <div className="mx-5 py-10">
+      {!directors.isLoading ? 
+      <Carousel className="mx-10">
+      <CarouselPrevious />
+        <CarouselContent>
+      {!directors.isLoading && carouselDirectors?.map((arr:any,index:number) => {
+        return (
+          <CarouselItem key={index} className="flex gap-2">
+            {arr.map((director:any,index:number) => <DirectorCard data={director} />)}
+          </CarouselItem>
+        )
+      })
+      }
+           </CarouselContent>
+           <CarouselNext />
+      </Carousel>
+       : 
+      (
+  <div className="flex gap-5 flex-wrap">
+    {
+      Array.from({length:8}).map((_,index) => (
+        <div key={index} className="flex flex-col space-y-3">
+            <Skeleton key={index} className="h-[200px] w-[150px] bg-gray-900 rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[150px] bg-slate-600" />
+              <Skeleton className="h-4 w-2/3 bg-slate-600" />
+            </div>
+        </div>
+      ))
+    }
+  </div>
+)}
+    </div>
+    </div>
+  )}
+

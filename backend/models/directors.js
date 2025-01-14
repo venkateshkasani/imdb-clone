@@ -4,7 +4,8 @@ const schema = mongoose.Schema({
     name:String,
     gender:String,
     DOB:String,
-    Bio:String
+    Bio:String,
+    poster:String
 },
 {
     collection:'directors'

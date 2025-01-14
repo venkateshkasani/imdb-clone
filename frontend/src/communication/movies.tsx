@@ -1,8 +1,7 @@
 'use client'
 import axiosInstance from "@/utils/instance";
-import { Query, useQuery,useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { queryObjects } from "v8";
 
 export const getAllMovies = () => {
   return useQuery({

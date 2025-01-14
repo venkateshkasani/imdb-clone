@@ -66,8 +66,8 @@ const Searchbar = () => {
             </div>
             <div className={clsx("absolute max-h-[50vh] overflow-y-auto top-10 z-10 w-full rounded mt-1 bg-slate-200 text-black font-semibold flex flex-col gap-2",{'hidden':!open})}>
                 {searchResults?.map((movie:any,index:number) => (
-                    <Link href={`/movies/${movie._id}`}>
-                    <span className = "searchItem" onClick={() => console.log("selected",movie.movieName)}>
+                    <Link href={`/movies/${movie._id}`} className="hover:bg-gray-300">
+                    <span onClick={() => console.log("selected",movie.movieName)} className="p-2">
                        {movie.movieName}
                     </span>
                     </Link>

@@ -64,7 +64,7 @@ router.post('/movies', async (req, res) => {
     try {
         await movieModel.create(movie)
         res.status(200).send(movie)
-        console.log("Inserted movie successfully")
+        console.log("Movie added successfully")
     } catch (error) {
         res.status(400).send(error)
         console.log("Error in the movie post route!!",error)

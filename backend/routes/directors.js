@@ -12,20 +12,13 @@ router.get('/directors', async (req,res) => {
      }
   })
 
-router.post('/post-directors', async (req,res) => {
+router.post('/directors', async (req,res) => {
     try {
-        await directors.insertMany()
+      const post = new directors(req.body)
+        await post.save();
         res.json({"message":"Successfully inserted"})
     } catch (e) {
-        throw new Error("Failed to fetch resources from db")
-    }
-})
-
-router.get("/ds",async (req,res) => {
-    try {
-      res.json({"mess":"yes"})
-    } catch {
-      res.json({"message":"error got"})
+        console.log("Failed to push data to db",e)
     }
 })
 
