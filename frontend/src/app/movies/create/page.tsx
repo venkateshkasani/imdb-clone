@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import MultiInput from '@/custom-components/multiInput'
 import { useEffect, useState } from 'react'
 import postMovies, { uploadImage } from '@/communication/movies'
-import { getAllDirectors, postDirectors } from '@/communication/directors'
+import { getAllDirectorsDirectly, postDirectors } from '@/communication/directors'
 import { ToastContainer, toast } from 'react-toastify';
 import { Button } from "@/components/ui/button"
 import {
@@ -18,33 +18,39 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { directorType } from '@/utils/dataType'
 import { postProducers } from '@/communication/producers'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {z} from 'zod'
+import movieSchema from '@/schema/movies'
+import { Loader2 } from 'lucide-react'
+import clsx from 'clsx'
 
 
 const page = () => {
-    const {handleSubmit, register } = useForm()
-    const [multiInput,setMultiInput] = useState<string[]>();
+  type formType = z.infer<typeof movieSchema>
+    const {handleSubmit, register,formState:{errors}, setValue, getValues, reset } = useForm<formType>({
+      resolver:zodResolver(movieSchema)
+    })
+    const [multiInput,setMultiInput] = useState<string []>();
     const [file, setFile] = useState<File | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>();
     const [directorsList,setDirectorsList] = useState([]);
     const [director, setDirector] = useState<any>();
     const [producer, setProducer] = useState<any>();
 
+
+
+
     const handleImageChange = (e:any) => {
         setFile(e.target.files[0]);
         console.log("file chaged",file)
       };
 
-    const directors = async () => {
-        const data = await getAllDirectors();
-        return data;
-    }
-
     const callbackFuntion = (arr:string[]) => {
         setMultiInput(arr);
         console.log("triggerd callback",multiInput)
     }
+
     const handleFileUpload = async () => {
         const formData = new FormData()
         formData.append('file',file??'')
@@ -62,14 +68,17 @@ const page = () => {
         const res = await postMovies(data);
         setIsLoading(false)
         toast("Created movie successfully")
+        reset();
+        setMultiInput([])
     }
 
     useEffect(() => {
         const getSearchResults = async () => {
                 try {
-                    const response = await getAllDirectors();
-                    console.log("response",response?.data)
-                    setDirectorsList(response?.data || []);
+                  console.log("trying")
+                    const response = await getAllDirectorsDirectly();
+                    console.log("response",response)
+                    setDirectorsList(response || []);
                 } catch (error) {
                     console.error("Error while getting search results", error);
                 }
@@ -92,13 +101,19 @@ const page = () => {
         window.location.reload();
       }, 2000);
     }
+
+    useEffect(() => {
+       setValue('actors',multiInput!)
+    },[multiInput])
     
     return (
         <div className='flex flex-col justify-center items-center w-full'>
-            <div className="text-primary font-semibold text-3xl my-4 w-full">Create a movie</div>
+            <div className="text-black font-semibold text-3xl mt-4 w-full text-center">Create a movie</div>
+            <span className="text-gray-500 text-sm mb-2">Enter all the details to post..</span>
             <div className='flex justify-center w-full 1/2'>
             <form className='flex flex-col mb-4 gap-4 bg-gradient-to-tr from-transparent to-slate-700 h-fit w-1/2 p-3' onSubmit={handleSubmit(onSubmit)}>
                 <input className='text-stone-900 py-2 px-1 border-2 outline-none my-2 h-10 rounded' placeholder='movie name' {...register("movieName")} />
+                {errors.movieName && <span className='text-sm text-red-500'>{errors.movieName.message}</span>}
                 <div className='flex flex-col gap-1'>
                 <Dialog>
       <DialogTrigger asChild>
@@ -169,7 +184,7 @@ const page = () => {
                     {directorsList.map((director:any,index) => <option key={index}>{director.name}</option>)}
                 </select>
                 </div>
-                <MultiInput placeholder='Enter actor names...' callbackFunction={callbackFuntion} />
+                <MultiInput placeholder='Type and press enter' callbackFunction={callbackFuntion} />
                 <div className='flex flex-col gap-1'>
                 <Dialog>
       <DialogTrigger asChild>
@@ -236,12 +251,19 @@ const page = () => {
       </DialogContent>
     </Dialog>
                 <input className='text-stone-900 py-2 px-1 border-2 outline-none my-2 h-10 rounded' placeholder='Producer name' {...register("producer")} />
+                {errors.producer && <span className='text-sm text-red-500'>{errors.producer.message}</span>}
                 </div>
                 <input className='text-stone-900 py-2 px-1 border-2 outline-none my-2 h-10 rounded' placeholder='imdb rating' {...register("imdbRating")} />
+                {errors.imdbRating && <span className='text-sm text-red-500'>{errors.imdbRating.message}</span>}
                 <input className='text-stone-900 py-2 px-1 border-2 outline-none my-2 h-10 rounded' placeholder='Release year' {...register("yearOfRelease")} />
+                {errors.yearOfRelease && <span className='text-sm text-red-500'>{errors.yearOfRelease.message}</span>}
                 <input className='text-stone-900 py-2 px-1 border-2 outline-none my-2 h-10 rounded' placeholder='Plot' {...register("plot")} />
+                {errors.plot && <span className='text-sm text-red-500'>{errors.plot.message}</span>}
                 <input type='file' onChange={handleImageChange} />
-                <button type='submit' className='bg-black text-primary font-semibold rounded p-2 hover:text-yellow-500'>Create</button>
+                <button type='submit' className='bg-black text-primary font-semibold rounded p-2 hover:text-yellow-500'>
+                  <span className={clsx('inline',isLoading && 'hidden')}>Create</span>
+                  <Loader2 size={18} className={clsx('text-primary inline',{'animate-spin':isLoading,'hidden':!isLoading})} />
+                </button>
             </form>
             </div>
             <ToastContainer />

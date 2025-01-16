@@ -43,12 +43,23 @@ export default function Home() {
     <div className="mx-4 hidden md:block">
       <p className="text-primary font-bold text-2xl text-start">Up Next</p>
       <div className="flex flex-col gap-4 mt-2">
-      <div className="bg-slate-800 opacity-80 w-[300px] h-[150px] rounded-lg">
+      <div className="bg-slate-800 opacity-80 w-[300px] h-[150px] rounded-lg relative">
+      <div className="w-full h-full bg-gradient-to-t from-black via-black to-neutral-900 z-10 absolute bottom-0 left-0 text-slate-200 opacity-50 p-2 font-semibold text-xl">
+        <span className="absolute bottom-2 left-2">
+          <p>Superman</p>
+          <p className="text-xs">11 July 2025</p>
+        </span>
+      </div>
       <img src="/superman_banner.jpg" className="h-full w-full cardImage rounded-md" />
       </div>
-      <div className="bg-slate-800 opacity-80 w-[300px] h-[150px] ">
-      <img src="/batman-2.jpg" className="h-full w-full cardImage rounded-md" />
-      </div>
+      <div className="bg-slate-800 opacity-80 w-[300px] h-[150px] rounded-lg relative">
+      <div className="w-full h-full bg-gradient-to-t from-black via-black to-neutral-900 z-10 absolute bottom-0 left-0 text-slate-200 opacity-50 p-2 font-semibold text-xl">
+        <span className="absolute bottom-2 left-2">
+          <p>The batman II</p>
+          <p className="text-xs">1 October 2027</p>
+        </span></div>
+        <img src="/batman-2.jpg" className="h-full w-full cardImage rounded-md" />
+        </div>
       <div className="bg-slate-800 opacity-80 w-[300px] h-[150px] rounded-lg">
       <img src="/fantastic-4.jpg" className="h-full w-full cardImage rounded-md" />
       </div>
@@ -56,7 +67,7 @@ export default function Home() {
     </div>
     </div>
     <div>
-      {/* <p className="text-primary text-3xl ml-4 font-semibold mt-10">Top Rated Movies: </p> */}
+      <p className="text-primary text-3xl ml-4 font-semibold mt-10">Top Rated Movies: </p>
       <div className="mx-5 py-10">
       {!isLoading ? 
       <Carousel className="mx-10">
@@ -102,7 +113,7 @@ export default function Home() {
       {!directors.isLoading && carouselDirectors?.map((arr:any,index:number) => {
         return (
           <CarouselItem key={index} className="flex gap-2">
-            {arr.map((director:any,index:number) => <DirectorCard data={director} />)}
+            {arr.map((director:any,index:number) => <DirectorCard key={index} data={director} />)}
           </CarouselItem>
         )
       })

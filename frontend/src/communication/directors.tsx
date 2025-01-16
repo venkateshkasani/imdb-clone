@@ -11,6 +11,11 @@ export const getAllDirectors = () => {
      })
  }
 
+ export const getAllDirectorsDirectly = async () => {
+   const response = await axiosInstance.get('/directors')
+   return response.data
+ }
+
 export const postDirectors = async (data:any) => {
      try {
         await axiosInstance.post('/directors',data)
