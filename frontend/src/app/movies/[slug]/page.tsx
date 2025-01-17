@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import clsx from "clsx";
 import { movieEditType } from "@/types/movies";
 import {
@@ -20,9 +19,12 @@ import MultiInput from "@/custom-components/multiInput";
 import { Controller, useForm } from "react-hook-form";
 import { MovieType } from "@/types/movies";
 
+interface pageProps {
+   params:{slug:string}
+}
 
-const Page = ({params}:{params:string}) => {
-  const {slug} = useParams()
+const Page = ({params}:pageProps) => {
+  const {slug} = params;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   type formType = {
