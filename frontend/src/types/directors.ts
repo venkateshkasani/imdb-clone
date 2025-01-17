@@ -1,4 +1,4 @@
-interface GetDirectorType {
+export interface GetDirectorType {
     _id: string;
     name: string;
     gender: string;
@@ -8,7 +8,7 @@ interface GetDirectorType {
     poster: string;
   }
 
-  interface PostDirectorType {
+ export interface PostDirectorType {
     name: string;
     gender: string;
     DOB: string; // Assuming DOB is a string representation of a date

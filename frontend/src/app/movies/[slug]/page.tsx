@@ -21,7 +21,7 @@ import { Controller, useForm } from "react-hook-form";
 import { MovieType } from "@/types/movies";
 
 
-const Page = ({params}:{params:any}) => {
+const Page = ({params}:{params:string}) => {
   const {slug} = useParams()
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

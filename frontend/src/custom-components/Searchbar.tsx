@@ -5,7 +5,6 @@ import { movieType } from "@/utils/dataType"
 import clsx from "clsx"
 import { Search,X } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 
 const Searchbar = () => {
