@@ -70,7 +70,7 @@ const Page = () => {
 
   const onSubmit = async (data:movieEditType) => {
     setIsSubmitting(true)
-     await updateMovie({...data,_id:params.slug})
+     await updateMovie({...data,_id:slug})
      console.log("Updated brao!")
      setIsSubmitting(false);
      setIsSheetOpen(false);
