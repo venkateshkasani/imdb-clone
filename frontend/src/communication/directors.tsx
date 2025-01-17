@@ -1,3 +1,4 @@
+import { PostDirectorType } from "@/types/directors";
 import axiosInstance from "@/utils/instance";
 import { useQuery } from "@tanstack/react-query";
 
