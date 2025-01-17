@@ -22,7 +22,7 @@ export default function Home() {
   console.log("directors data",directors?.data?.data)
   const movieArray = data?.data;
   const directorArray = directors?.data?.data;
-  const subArrays = (mainArray:MovieType[] | directorType[]) => {
+  const subArrays = (mainArray) => {
      const op = [];
      for(let i=0;i<mainArray?.length;i+=6) {
       const subArr = [];
@@ -76,10 +76,10 @@ export default function Home() {
       <Carousel className="mx-10">
       <CarouselPrevious />
         <CarouselContent>
-      {!isLoading && carouselMovies?.map((arr:MovieType[],index:number) => {
+      {!isLoading && carouselMovies?.map((arr,index) => {
         return (
           <CarouselItem key={index} className="flex gap-2">
-            {arr.map((movie:MovieType,index:number) => <Moviecard key={index} data = {movie} />)}
+            {arr.map((movie,index) => <Moviecard key={index} data = {movie} />)}
           </CarouselItem>
         )
       })
@@ -113,10 +113,10 @@ export default function Home() {
       <Carousel className="mx-10">
       <CarouselPrevious />
         <CarouselContent>
-      {!directors.isLoading && carouselDirectors?.map((arr:GetDirectorType[],index:number) => {
+      {!directors.isLoading && carouselDirectors?.map((arr,index) => {
         return (
           <CarouselItem key={index} className="flex gap-2">
-            {arr.map((director:GetDirectorType,index:number) => <DirectorCard key={index} data={director} />)}
+            {arr.map((director,index) => <DirectorCard key={index} data={director} />)}
           </CarouselItem>
         )
       })

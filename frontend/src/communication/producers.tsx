@@ -1,7 +1,6 @@
-import { PostProducerType } from "@/types/producers"
-import axiosInstance from "@/utils/instance"
+import axiosInstance from "../utils/instance"
 
-export const postProducers = async (data:PostProducerType) => {
+export const postProducers = async (data) => {
     try {
        await axiosInstance.post('/producers',data)
        console.log("Producer data uploaded successfully")

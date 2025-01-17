@@ -20,38 +20,33 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { postProducers } from '@/communication/producers'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {z} from 'zod'
 import movieSchema from '@/schema/movies'
 import { Loader2 } from 'lucide-react'
 import clsx from 'clsx'
-import { PostMovieData } from '@/types/movies'
-import { GetProducerType, PostProducerType } from '@/types/producers'
-import { GetDirectorType, PostDirectorType } from '@/types/directors'
 
 
 const Page = () => {
-  type formType = z.infer<typeof movieSchema>
-    const {handleSubmit, register,formState:{errors}, setValue, reset } = useForm<formType>({
+    const {handleSubmit, register,formState:{errors}, setValue, reset } = useForm({
       resolver:zodResolver(movieSchema)
     })
-    const [multiInput,setMultiInput] = useState<string []>();
-    const [file, setFile] = useState<File | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>();
+    const [multiInput,setMultiInput] = useState();
+    const [file, setFile] = useState(null);
+    const [isLoading, setIsLoading] = useState();
     const [directorsList,setDirectorsList] = useState([]);
-    const [director, setDirector] = useState<PostDirectorType>();
-    const [producer, setProducer] = useState<PostProducerType>();
+    const [director, setDirector] = useState();
+    const [producer, setProducer] = useState();
 
 
 
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = (e) => {
       if (e.target.files && e.target.files.length > 0) {
         setFile(e.target.files[0]);
         console.log("file changed", e.target.files[0]);
       }
     };
 
-    const callbackFuntion = (arr:string[]) => {
+    const callbackFuntion = (arr) => {
         setMultiInput(arr);
         console.log("triggerd callback",multiInput)
     }
@@ -65,7 +60,7 @@ const Page = () => {
         return data;
     }
 
-    const onSubmit = async (data:PostMovieData) => {
+    const onSubmit = async (data) => {
         setIsLoading(true)
         data.actors = multiInput;   
         const url = await handleFileUpload();
@@ -107,7 +102,7 @@ const Page = () => {
     }
 
     useEffect(() => {
-       setValue('actors',multiInput!)
+       setValue('actors',multiInput)
     },[multiInput])
     
     return (
@@ -137,7 +132,7 @@ const Page = () => {
             </Label>
             <Input
               id="name"
-              onChange={(e) => setDirector((prev:GetDirectorType) => ({...prev,name:e.target.value}))}
+              onChange={(e) => setDirector((prev) => ({...prev,name:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -148,7 +143,7 @@ const Page = () => {
             </Label>
             <Input
               id="gender"
-              onChange={(e) => setDirector((prev:GetDirectorType) => ({...prev,gender:e.target.value}))}
+              onChange={(e) => setDirector((prev) => ({...prev,gender:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -159,7 +154,7 @@ const Page = () => {
             </Label>
             <Input
               id="dob"
-              onChange={(e) => setDirector((prev:GetDirectorType) => ({...prev,DOB:e.target.value}))}
+              onChange={(e) => setDirector((prev) => ({...prev,DOB:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -170,7 +165,7 @@ const Page = () => {
             </Label>
             <Input
               id="Bio"
-              onChange={(e) => setDirector((prev:GetDirectorType) => ({...prev,Bio:e.target.value}))}
+              onChange={(e) => setDirector((prev) => ({...prev,Bio:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -185,7 +180,7 @@ const Page = () => {
     </Dialog>
                 <select className='border-2 outline-none py-2 rounded px-1' {...register('director')}>
                     <option key={0} selected disabled hidden>Select a director</option>
-                    {directorsList.map((director:GetDirectorType,index) => <option key={index}>{director.name}</option>)}
+                    {directorsList.map((director,index) => <option key={index}>{director.name}</option>)}
                 </select>
                 </div>
                 <MultiInput placeholder='Type and press enter' callbackFunction={callbackFuntion} />
@@ -208,7 +203,7 @@ const Page = () => {
             </Label>
             <Input
               id="name"
-              onChange={(e) => setProducer((prev:GetProducerType) => ({...prev,name:e.target.value}))}
+              onChange={(e) => setProducer((prev) => ({...prev,name:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -219,7 +214,7 @@ const Page = () => {
             </Label>
             <Input
               id="gender"
-              onChange={(e) => setProducer((prev:GetProducerType) => ({...prev,gender:e.target.value}))}
+              onChange={(e) => setProducer((prev) => ({...prev,gender:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -230,7 +225,7 @@ const Page = () => {
             </Label>
             <Input
               id="dob"
-              onChange={(e) => setProducer((prev:GetProducerType) => ({...prev,DOB:e.target.value}))}
+              onChange={(e) => setProducer((prev) => ({...prev,DOB:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -241,7 +236,7 @@ const Page = () => {
             </Label>
             <Input
               id="Bio"
-              onChange={(e) => setProducer((prev:GetProducerType) => ({...prev,Bio:e.target.value}))}
+              onChange={(e) => setProducer((prev) => ({...prev,Bio:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />

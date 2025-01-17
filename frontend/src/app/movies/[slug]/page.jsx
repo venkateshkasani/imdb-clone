@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { movieEditType } from "@/types/movies";
 import {
   Sheet,
   SheetContent,
@@ -17,33 +16,18 @@ import {
 } from "@/components/ui/sheet"
 import MultiInput from "@/custom-components/multiInput";
 import { Controller, useForm } from "react-hook-form";
-import { MovieType } from "@/types/movies";
 
-interface pageProps {
-   params:{slug:string}
-}
-
-const Page = ({params}:pageProps) => {
+const Page = ({params}) => {
   const {slug} = params;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  type formType = {
-    movieName:string,
-    imdbRating:string,
-    actors:string[],
-    producer:string, 
-    director:string,
-    poster:string,
-    yearOfRelease:string,
-    plot:string
-  }
   
   const {register, control, handleSubmit, setValue, formState:{errors}} = useForm<formType>({
     // resolver:zodResolver()
   })
 
   const {data} =  GetAllMovies();
-  const filtered = data?.data.filter((movie:MovieType) => movie._id == slug)
+  const filtered = data?.data.filter((movie) => movie._id == slug)
   const movie = filtered[0];
   console.log("movie",movie)
 
@@ -64,13 +48,13 @@ const Page = ({params}:pageProps) => {
     plot:''
   })
 
-  const updateActors = (data:string[]) => {
+  const updateActors = (data) => {
       setFormData((prev) => ({...prev,actors:data}))
       setValue('actors',data);
       console.log("Actors changed")
   }
 
-  const onSubmit = async (data:movieEditType) => {
+  const onSubmit = async (data) => {
     setIsSubmitting(true)
      await updateMovie({...data,_id:params.slug})
      console.log("Updated brao!")
@@ -220,7 +204,7 @@ const Page = ({params}:pageProps) => {
         </div>
         <div className="w-full text-slate-400 flex flex-col gap-2">
         <p>Starring: </p>
-        <p>{movie.actors.map((act:string,index:number) => <p key={index} className="text-primary text-2xl font-semibold">{act}</p>)}</p>
+        <p>{movie.actors.map((act,index) => <p key={index} className="text-primary text-2xl font-semibold">{act}</p>)}</p>
         </div>
        </div>
     </div>
