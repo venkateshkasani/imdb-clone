@@ -1,8 +1,8 @@
 'use client'
 import { GetAllMovies, updateMovie } from "@/communication/movies";
 import { Edit, LoaderCircle, Star, X } from "lucide-react";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/src/types/components/ui/button"
+import { Input } from "@/src/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react";
 import clsx from "clsx";
@@ -13,7 +13,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/src/components/ui/sheet"
 import MultiInput from "@/custom-components/multiInput";
 import { Controller, useForm } from "react-hook-form";
 

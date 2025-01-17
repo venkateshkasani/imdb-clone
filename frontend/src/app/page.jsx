@@ -9,7 +9,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/src/components/ui/carousel"
 import { GetAllDirectors } from "@/communication/directors";
 import DirectorCard from "@/custom-components/DirectorCard";
 import { MovieType } from "@/types/movies";

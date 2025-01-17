@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import postMovies, { uploadImage } from '@/communication/movies'
 import { getAllDirectorsDirectly, postDirectors } from '@/communication/directors'
 import { ToastContainer, toast } from 'react-toastify';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/src/types/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -15,8 +15,8 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
+} from "@/src/components/ui/dialog"
+import { Input } from "@/src/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { postProducers } from '@/communication/producers'
 import { zodResolver } from '@hookform/resolvers/zod'
