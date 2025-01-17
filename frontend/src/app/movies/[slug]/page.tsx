@@ -18,13 +18,10 @@ import {
 import MultiInput from "@/custom-components/multiInput";
 import { Controller, useForm } from "react-hook-form";
 import { MovieType } from "@/types/movies";
+import { useParams } from "next/navigation";
 
-interface pageProps {
-   params:{slug:string}
-}
-
-const Page = ({params}:pageProps) => {
-  const {slug} = params;
+const Page = () => {
+  const {slug} = useParams();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   type formType = {
