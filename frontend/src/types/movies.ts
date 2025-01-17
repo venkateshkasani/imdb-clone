@@ -32,8 +32,3 @@ export interface PostMovieData {
     yearOfRelease: string;
     poster:string
   }
-
-export interface uploadImageDataType {
-    file: File | null; // The file being uploaded
-    upload_preset: string; // The upload preset
-}

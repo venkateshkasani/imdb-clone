@@ -1,5 +1,5 @@
 'use client'
-import { movieEditType, PostMovieData, uploadImageDataType } from "@/types/movies";
+import { movieEditType, PostMovieData } from "@/types/movies";
 import axiosInstance from "@/utils/instance";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
