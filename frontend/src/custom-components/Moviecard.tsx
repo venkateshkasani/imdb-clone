@@ -1,12 +1,11 @@
 'use client'
-import movieSchema from "@/schema/movies"
+import { MovieType } from "@/types/movies";
 import { Pencil, Star } from "lucide-react"
 import Link from "next/link"
 
 const Moviecard = ({data}:{data:any}) => {
   const truncateLength = 40;
   const truncatedPlot = data.plot.length > truncateLength ? data.plot.slice(0,truncateLength) + "..." : data.plot.slice;
-  const castLength = 20;
   const actorsString = data.actors.join(',')
   const truncatedActors = actorsString.length > 25 ? actorsString.slice(0,25) + '...' : actorsString
   const truncatedTitle = data.movieName.length > 30 ? data.movieName.slice(0,30) + '...' : data.movieName

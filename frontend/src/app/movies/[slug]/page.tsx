@@ -1,5 +1,5 @@
 'use client'
-import { getAllMovies, updateMovie } from "@/communication/movies";
+import { GetAllMovies, updateMovie } from "@/communication/movies";
 import { Edit, LoaderCircle, Star, X } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -7,9 +7,9 @@ import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import clsx from "clsx";
+import { movieEditType } from "@/types/movies";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
@@ -17,24 +17,31 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import MultiInput from "@/custom-components/multiInput";
-import { movieType } from "@/utils/movieFormType";
-import { Controller, SubmitHandler,useForm } from "react-hook-form";
-import movieSchema from "@/schema/movies";
-import {z} from 'zod'
-import {zodResolver} from '@hookform/resolvers/zod'
+import { Controller, useForm } from "react-hook-form";
+import { MovieType } from "@/types/movies";
 
 
-const page = ({params}:{params:any}) => {
+const Page = ({params}:{params:any}) => {
   const {slug} = useParams()
-  type movieType = z.infer<typeof movieSchema>
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {register, control, handleSubmit, setValue, getValues, formState:{errors},watch} = useForm<movieType>({
-    resolver:zodResolver(movieSchema)
+  type formType = {
+    movieName:string,
+    imdbRating:string,
+    actors:string[],
+    producer:string, 
+    director:string,
+    poster:string,
+    yearOfRelease:string,
+    plot:string
+  }
+  
+  const {register, control, handleSubmit, setValue, formState:{errors}} = useForm<formType>({
+    // resolver:zodResolver()
   })
 
-  const {data,isLoading} =  getAllMovies();
-  const filtered = data?.data.filter((movie:any) => movie._id == slug)
+  const {data} =  GetAllMovies();
+  const filtered = data?.data.filter((movie:MovieType) => movie._id == slug)
   const movie = filtered[0];
   console.log("movie",movie)
 
@@ -44,14 +51,14 @@ const page = ({params}:{params:any}) => {
    }
   },[])
   
-  const [formData, setFormData] = useState<movieType>({
+  const [formData, setFormData] = useState<formType>({
     movieName:'',
     imdbRating:'',
     actors:[],
     producer:'', 
     director:'',
+    poster:"",
     yearOfRelease:'',
-    poster:'',
     plot:''
   })
 
@@ -61,7 +68,7 @@ const page = ({params}:{params:any}) => {
       console.log("Actors changed")
   }
 
-  const onSubmit = async (data:any) => {
+  const onSubmit = async (data:movieEditType) => {
     setIsSubmitting(true)
      await updateMovie({...data,_id:params.slug})
      console.log("Updated brao!")
@@ -211,7 +218,7 @@ const page = ({params}:{params:any}) => {
         </div>
         <div className="w-full text-slate-400 flex flex-col gap-2">
         <p>Starring: </p>
-        <p>{movie.actors.map((act:any,index:number) => <p key={index} className="text-primary text-2xl font-semibold">{act}</p>)}</p>
+        <p>{movie.actors.map((act:string,index:number) => <p key={index} className="text-primary text-2xl font-semibold">{act}</p>)}</p>
         </div>
        </div>
     </div>
@@ -219,4 +226,4 @@ const page = ({params}:{params:any}) => {
   )
 }
 
-export default page
+export default Page

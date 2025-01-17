@@ -1,5 +1,7 @@
 'use client'
 import { searchMovies } from "@/communication/movies"
+import { movieEditType } from "@/types/movies"
+import { movieType } from "@/utils/dataType"
 import clsx from "clsx"
 import { Search,X } from "lucide-react"
 import Link from "next/link"
@@ -8,11 +10,10 @@ import { useEffect, useRef, useState } from "react"
 
 const Searchbar = () => {
     const [search, setSearch] = useState<string>('')
-    const [searchResults, setSearchResults] = useState<any | undefined[]>([])
+    const [searchResults, setSearchResults] = useState<movieType[] | undefined[]>([])
     const [focusSearch, setFocusSearch] = useState<boolean>(false)
     const [open, setOpen] = useState<boolean>(true)
     const searchRef = useRef<HTMLInputElement>(null);
-    const router = useRouter()
 
     useEffect(() => {
         if(search.length > 0 && focusSearch) {
@@ -45,11 +46,6 @@ const Searchbar = () => {
         getSearchResults();
     }, [search]);
 
-    const handleNav = (movie:any) => {
-        console.log("Clicked")
-        router.push(`/movies/${movie.movieName}`)
-    }
-
 
     return (
         <div className="relative">
@@ -65,9 +61,9 @@ const Searchbar = () => {
                     <X onClick={() => setSearch('')} className={clsx('text-gray-500 absolute right-1 hover:cursor-pointer',{'block':search.length > 0,'hidden':search.length < 1})} size={20} />
             </div>
             <div className={clsx("absolute max-h-[50vh] overflow-y-auto top-10 z-10 w-full rounded mt-1 bg-slate-200 text-black font-semibold flex flex-col gap-2",{'hidden':!open})}>
-                {searchResults?.map((movie:any,index:number) => (
-                    <Link key={index} href={`/movies/${movie._id}`} className="hover:bg-gray-300">
-                    <span onClick={() => console.log("selected",movie.movieName)} className="p-2">
+                {searchResults?.map((movie:movieEditType|any,index:number) => (
+                    <Link key={index} href={`/movies/${movie?._id}`} className="hover:bg-gray-300">
+                    <span onClick={() => console.log("selected",movie?.movieName??'')} className="p-2">
                        {movie.movieName}
                     </span>
                     </Link>

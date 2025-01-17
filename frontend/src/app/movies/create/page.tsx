@@ -24,11 +24,13 @@ import {z} from 'zod'
 import movieSchema from '@/schema/movies'
 import { Loader2 } from 'lucide-react'
 import clsx from 'clsx'
+import { PostMovieData } from '@/types/movies'
+import { GetProducerType } from '@/types/producers'
 
 
-const page = () => {
+const Page = () => {
   type formType = z.infer<typeof movieSchema>
-    const {handleSubmit, register,formState:{errors}, setValue, getValues, reset } = useForm<formType>({
+    const {handleSubmit, register,formState:{errors}, setValue, reset } = useForm<formType>({
       resolver:zodResolver(movieSchema)
     })
     const [multiInput,setMultiInput] = useState<string []>();
@@ -41,10 +43,12 @@ const page = () => {
 
 
 
-    const handleImageChange = (e:any) => {
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files.length > 0) {
         setFile(e.target.files[0]);
-        console.log("file chaged",file)
-      };
+        console.log("file changed", e.target.files[0]);
+      }
+    };
 
     const callbackFuntion = (arr:string[]) => {
         setMultiInput(arr);
@@ -60,7 +64,7 @@ const page = () => {
         return data;
     }
 
-    const onSubmit = async (data:any) => {
+    const onSubmit = async (data:PostMovieData) => {
         setIsLoading(true)
         data.actors = multiInput;   
         const url = await handleFileUpload();
@@ -75,7 +79,6 @@ const page = () => {
     useEffect(() => {
         const getSearchResults = async () => {
                 try {
-                  console.log("trying")
                     const response = await getAllDirectorsDirectly();
                     console.log("response",response)
                     setDirectorsList(response || []);
@@ -87,7 +90,7 @@ const page = () => {
     }, []);
 
     const createDirector = async () => {
-       const res = await postDirectors(director)
+       await postDirectors(director)
        toast('Director Data posted succesfully')
        setTimeout(() => {
         window.location.reload();
@@ -95,7 +98,7 @@ const page = () => {
     }
 
     const createProducer = async () => {
-       const res = await postProducers(producer)
+       await postProducers(producer)
        toast('Producer Data posted succesfully')
        setTimeout(() => {
         window.location.reload();
@@ -133,7 +136,7 @@ const page = () => {
             </Label>
             <Input
               id="name"
-              onChange={(e) => setDirector((prev:any) => ({...prev,name:e.target.value}))}
+              onChange={(e) => setDirector((prev:GetDirectorType) => ({...prev,name:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -144,7 +147,7 @@ const page = () => {
             </Label>
             <Input
               id="gender"
-              onChange={(e) => setDirector((prev:any) => ({...prev,gender:e.target.value}))}
+              onChange={(e) => setDirector((prev:GetDirectorType) => ({...prev,gender:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -155,7 +158,7 @@ const page = () => {
             </Label>
             <Input
               id="dob"
-              onChange={(e) => setDirector((prev:any) => ({...prev,DOB:e.target.value}))}
+              onChange={(e) => setDirector((prev:GetDirectorType) => ({...prev,DOB:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -166,7 +169,7 @@ const page = () => {
             </Label>
             <Input
               id="Bio"
-              onChange={(e) => setDirector((prev:any) => ({...prev,Bio:e.target.value}))}
+              onChange={(e) => setDirector((prev:GetDirectorType) => ({...prev,Bio:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -181,7 +184,7 @@ const page = () => {
     </Dialog>
                 <select className='border-2 outline-none py-2 rounded px-1' {...register('director')}>
                     <option key={0} selected disabled hidden>Select a director</option>
-                    {directorsList.map((director:any,index) => <option key={index}>{director.name}</option>)}
+                    {directorsList.map((director:GetDirectorType,index) => <option key={index}>{director.name}</option>)}
                 </select>
                 </div>
                 <MultiInput placeholder='Type and press enter' callbackFunction={callbackFuntion} />
@@ -204,7 +207,7 @@ const page = () => {
             </Label>
             <Input
               id="name"
-              onChange={(e) => setProducer((prev:any) => ({...prev,name:e.target.value}))}
+              onChange={(e) => setProducer((prev:GetProducerType) => ({...prev,name:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -215,7 +218,7 @@ const page = () => {
             </Label>
             <Input
               id="gender"
-              onChange={(e) => setProducer((prev:any) => ({...prev,gender:e.target.value}))}
+              onChange={(e) => setProducer((prev:GetProducerType) => ({...prev,gender:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -226,7 +229,7 @@ const page = () => {
             </Label>
             <Input
               id="dob"
-              onChange={(e) => setProducer((prev:any) => ({...prev,DOB:e.target.value}))}
+              onChange={(e) => setProducer((prev:GetProducerType) => ({...prev,DOB:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -237,7 +240,7 @@ const page = () => {
             </Label>
             <Input
               id="Bio"
-              onChange={(e) => setProducer((prev:any) => ({...prev,Bio:e.target.value}))}
+              onChange={(e) => setProducer((prev:GetProducerType) => ({...prev,Bio:e.target.value}))}
               defaultValue=""
               className="col-span-3"
             />
@@ -271,4 +274,4 @@ const page = () => {
     )
 }
 
-export default page;
+export default Page;

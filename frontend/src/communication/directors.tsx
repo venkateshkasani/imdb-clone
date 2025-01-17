@@ -1,7 +1,7 @@
 import axiosInstance from "@/utils/instance";
 import { useQuery } from "@tanstack/react-query";
 
-export const getAllDirectors = () => {
+export const GetAllDirectors = () => {
    return useQuery({
        queryKey:['allDirectors'],
        queryFn:async () => {
@@ -16,7 +16,7 @@ export const getAllDirectors = () => {
    return response.data
  }
 
-export const postDirectors = async (data:any) => {
+export const postDirectors = async (data:PostDirectorType) => {
      try {
         await axiosInstance.post('/directors',data)
         console.log("Director data uploaded successfully")

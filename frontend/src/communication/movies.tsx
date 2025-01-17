@@ -1,9 +1,10 @@
 'use client'
+import { movieEditType, PostMovieData, uploadImageDataType } from "@/types/movies";
 import axiosInstance from "@/utils/instance";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const getAllMovies = () => {
+export const GetAllMovies = () => {
   return useQuery({
       queryKey:['allMovies'],
       queryFn:async () => {
@@ -13,7 +14,7 @@ export const getAllMovies = () => {
     })
 }
 
-export const searchMovies = async (movieData:any) => {
+export const searchMovies = async (movieData:{movieName:string}) => {
   try {
      const data = await axiosInstance.post('/search-movies',movieData)
      return data;
@@ -24,7 +25,7 @@ export const searchMovies = async (movieData:any) => {
 
 // edit movies
 
-export const updateMovie = async (data:any) => {
+export const updateMovie = async (data:movieEditType) => {
   try {
       const doc = await axiosInstance.put('/movies',data);
       console.log("Successfully updated",doc);
@@ -33,7 +34,7 @@ export const updateMovie = async (data:any) => {
   }
 }
 
-const postMovies = async (data:any) => {
+const postMovies = async (data:PostMovieData) => {
     try {
         await axiosInstance.post('/movies',data )
         console.log("upload success")
@@ -42,11 +43,19 @@ const postMovies = async (data:any) => {
     }
 }
 
-export const uploadImage:any = async (formData:any) => {
+export const uploadImage:any = async (formData:uploadImageDataType) => {
   try {
-    const response:any =  await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,formData)
-    const url = response.data.secure_url;
-    return url;
+    const response:unknown =  await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,formData)
+    if (typeof response === 'object' && response !== null && 'data' in response) {
+      const data = (response as { data: { secure_url: string } }).data; // Narrowing the type to access data
+      const url = data?.secure_url;
+      console.log(url);
+      return url;
+    } else {
+      // Handle the case where response is not as expected
+      console.error("Response format is not as expected");
+      return null;
+    }
   } catch (e) {
     console.log("Error while uploading file",e)
   }

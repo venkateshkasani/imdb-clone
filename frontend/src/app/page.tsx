@@ -1,7 +1,7 @@
 'use client'
 import Carousel_custom from "@/custom-components/Carousel_custom";
 import Moviecard from "@/custom-components/Moviecard";
-import { getAllMovies } from "@/communication/movies";
+import { GetAllMovies } from "@/communication/movies";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Carousel,
@@ -10,12 +10,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { getAllDirectors } from "@/communication/directors";
+import { GetAllDirectors } from "@/communication/directors";
 import DirectorCard from "@/custom-components/DirectorCard";
+import { movieEditType, MovieType } from "@/types/movies";
 
 export default function Home() {
-  const {data, isLoading} = getAllMovies();
-  const directors = getAllDirectors();
+  const {data, isLoading} = GetAllMovies();
+  const directors = GetAllDirectors();
   console.log("directors data",directors?.data?.data)
   const movieArray = data?.data;
   const directorArray = directors?.data?.data;
@@ -73,10 +74,10 @@ export default function Home() {
       <Carousel className="mx-10">
       <CarouselPrevious />
         <CarouselContent>
-      {!isLoading && carouselMovies?.map((arr:any,index:number) => {
+      {!isLoading && carouselMovies?.map((arr:MovieType[],index:number) => {
         return (
           <CarouselItem key={index} className="flex gap-2">
-            {arr.map((movie:any,index:number) => <Moviecard key={index} data = {movie} />)}
+            {arr.map((movie:MovieType,index:number) => <Moviecard key={index} data = {movie} />)}
           </CarouselItem>
         )
       })
@@ -110,10 +111,10 @@ export default function Home() {
       <Carousel className="mx-10">
       <CarouselPrevious />
         <CarouselContent>
-      {!directors.isLoading && carouselDirectors?.map((arr:any,index:number) => {
+      {!directors.isLoading && carouselDirectors?.map((arr:GetDirectorType[],index:number) => {
         return (
           <CarouselItem key={index} className="flex gap-2">
-            {arr.map((director:any,index:number) => <DirectorCard key={index} data={director} />)}
+            {arr.map((director:GetDirectorType,index:number) => <DirectorCard key={index} data={director} />)}
           </CarouselItem>
         )
       })

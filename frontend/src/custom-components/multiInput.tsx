@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const MultiInput = ({placeholder,callbackFunction,initialData}:multiInputProps) => {
     const [value, setValue] = useState<string>('');
     const [arr, setArr] = useState<string[]>([]);
-    const handleEnter = (e:any) => {
+    const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if(e.key === 'Enter') {
             e.preventDefault();
             if(value.trim() !== '') {
@@ -27,14 +27,14 @@ const MultiInput = ({placeholder,callbackFunction,initialData}:multiInputProps) 
       }
     },[])
 
-    const handleRemove = (e:any,index:number) => {
+    const handleRemove = (e: React.MouseEvent<HTMLSpanElement>, index: number) => {
         e.preventDefault();
         const tempArr = [...arr];
         tempArr.splice(index,1)
         setArr(tempArr)
     }
     
-    const handleInputChange = (e:any) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();  
         setValue(e.target.value) 
     }
