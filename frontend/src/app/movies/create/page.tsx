@@ -25,7 +25,8 @@ import movieSchema from '@/schema/movies'
 import { Loader2 } from 'lucide-react'
 import clsx from 'clsx'
 import { PostMovieData } from '@/types/movies'
-import { GetProducerType } from '@/types/producers'
+import { GetProducerType, PostProducerType } from '@/types/producers'
+import { GetDirectorType, PostDirectorType } from '@/types/directors'
 
 
 const Page = () => {
@@ -37,8 +38,8 @@ const Page = () => {
     const [file, setFile] = useState<File | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>();
     const [directorsList,setDirectorsList] = useState([]);
-    const [director, setDirector] = useState<any>();
-    const [producer, setProducer] = useState<any>();
+    const [director, setDirector] = useState<PostDirectorType>();
+    const [producer, setProducer] = useState<PostProducerType>();
 
 
 
@@ -69,7 +70,7 @@ const Page = () => {
         data.actors = multiInput;   
         const url = await handleFileUpload();
         data.poster = url;
-        const res = await postMovies(data);
+        await postMovies(data);
         setIsLoading(false)
         toast("Created movie successfully")
         reset();

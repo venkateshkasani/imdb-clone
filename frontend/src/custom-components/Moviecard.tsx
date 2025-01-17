@@ -3,9 +3,9 @@ import { MovieType } from "@/types/movies";
 import { Pencil, Star } from "lucide-react"
 import Link from "next/link"
 
-const Moviecard = ({data}:{data:any}) => {
+const Moviecard = ({data}:{data:MovieType}) => {
   const truncateLength = 40;
-  const truncatedPlot = data.plot.length > truncateLength ? data.plot.slice(0,truncateLength) + "..." : data.plot.slice;
+  const truncatedPlot = data.plot.length > truncateLength ? data.plot.slice(0,truncateLength) + "..." : data.plot;
   const actorsString = data.actors.join(',')
   const truncatedActors = actorsString.length > 25 ? actorsString.slice(0,25) + '...' : actorsString
   const truncatedTitle = data.movieName.length > 30 ? data.movieName.slice(0,30) + '...' : data.movieName
@@ -34,7 +34,7 @@ const Moviecard = ({data}:{data:any}) => {
         </div>
         <div>
           <span className="text-slate-300">Plot: </span>
-          <span className="text-xs text-primary">{data.plot.length > truncateLength ? truncatedPlot : data.plot }</span>
+          <span className="text-xs text-primary">{truncatedPlot}</span>
         </div>
       </Link>
     </div>

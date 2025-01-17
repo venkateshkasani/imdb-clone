@@ -1,5 +1,6 @@
+import { GetDirectorType } from "@/types/directors";
 
-const DirectorCard = ({data}:{data:any}) => {
+const DirectorCard = ({data}:{data:GetDirectorType}) => {
   const truncatedBio = data.Bio.length > 20 ? data.Bio.slice(0,20) + '...' : data.Bio;
   return (
     <div className="bg-black w-fit min-w-[22vw] min-h-[50vh] flex flex-col items-center">

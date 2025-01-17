@@ -12,7 +12,9 @@ import {
 } from "@/components/ui/carousel"
 import { GetAllDirectors } from "@/communication/directors";
 import DirectorCard from "@/custom-components/DirectorCard";
-import { movieEditType, MovieType } from "@/types/movies";
+import { MovieType } from "@/types/movies";
+import { GetDirectorType } from "@/types/directors";
+import { directorType } from "@/utils/dataType";
 
 export default function Home() {
   const {data, isLoading} = GetAllMovies();
@@ -20,7 +22,7 @@ export default function Home() {
   console.log("directors data",directors?.data?.data)
   const movieArray = data?.data;
   const directorArray = directors?.data?.data;
-  const subArrays = (mainArray:any) => {
+  const subArrays = (mainArray:MovieType[] | directorType[]) => {
      const op = [];
      for(let i=0;i<mainArray?.length;i+=6) {
       const subArr = [];

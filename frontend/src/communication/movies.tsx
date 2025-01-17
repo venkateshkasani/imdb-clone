@@ -19,7 +19,7 @@ export const searchMovies = async (movieData:{movieName:string}) => {
      const data = await axiosInstance.post('/search-movies',movieData)
      return data;
   } catch (e) {
-    console.log("Erorr while gettting search resources")
+    console.log("Erorr while gettting search resources",e)
   }
 }
 
@@ -30,7 +30,7 @@ export const updateMovie = async (data:movieEditType) => {
       const doc = await axiosInstance.put('/movies',data);
       console.log("Successfully updated",doc);
   } catch (e) {
-     console.log("Error while updating resources")
+     console.log("Error while updating resources",e)
   }
 }
 
@@ -43,7 +43,7 @@ const postMovies = async (data:PostMovieData) => {
     }
 }
 
-export const uploadImage:any = async (formData:uploadImageDataType) => {
+export const uploadImage = async (formData:uploadImageDataType) => {
   try {
     const response:unknown =  await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,formData)
     if (typeof response === 'object' && response !== null && 'data' in response) {
@@ -52,7 +52,6 @@ export const uploadImage:any = async (formData:uploadImageDataType) => {
       console.log(url);
       return url;
     } else {
-      // Handle the case where response is not as expected
       console.error("Response format is not as expected");
       return null;
     }
