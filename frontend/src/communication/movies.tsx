@@ -43,7 +43,7 @@ const postMovies = async (data:PostMovieData) => {
     }
 }
 
-export const uploadImage = async (formData:uploadImageDataType) => {
+export const uploadImage = async (formData:FormData) => {
   try {
     const response:unknown =  await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,formData)
     if (typeof response === 'object' && response !== null && 'data' in response) {
